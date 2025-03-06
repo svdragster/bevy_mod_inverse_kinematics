@@ -1,3 +1,4 @@
+use bevy::app::Animation;
 use bevy::prelude::*;
 
 mod solver;
@@ -30,7 +31,7 @@ pub struct IkConstraint {
 
 impl Plugin for InverseKinematicsPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Update, solver::inverse_kinematics_system);
+        app.add_systems(PostUpdate, solver::inverse_kinematics_system.after(Animation).before(TransformSystem::TransformPropagate));
         app.register_type::<IkConstraint>();
     }
 }
